@@ -3,6 +3,7 @@ const avisoNenhumaLista = document.getElementById("semTarefa");
 const btnMostraNovaTarefa = document.getElementById("BtnNovaTarefa");
 const novaTarefa = document.getElementById("novaTarefa");
 const resultadoVezesNaSemana = document.getElementById("resultado-vezes");
+const imagem = "./img/icon-delete.svg";
 
 let corAtual = "";
 
@@ -16,46 +17,44 @@ function verificarListaVazia() {
 
 function adicionar() {
     const nomeTarefa = document.getElementById("nome-tarefa").value;
-
     if (nomeTarefa === "") {
         alert("Por favor, adicionar uma tarefa");
-        return; // para aqui, não continua criando a tarefa
+        return;
     }
+
+    const metaSemana = parseInt(resultadoVezesNaSemana.textContent) || 1;
+    const corEscolhida = corAtual !== "" ? corAtual.style.backgroundColor : "#333";
 
     const novaLi = document.createElement("li");
     novaLi.innerHTML = `
-        <div class="card-tarefa">
+        <div class="card-tarefa" data-feitas="0" data-meta="${metaSemana}" data-cor="${corEscolhida}" style="border-left: 5px solid ${corEscolhida}">
+         <span class="btn-excluir" title="Excluir tarefa">
+         <img src="${imagem}" alt="Excluir">
+         </span>
             <div class="circulo"><span>0%</span></div>
             <div class="conteudo">
                 <h2>${nomeTarefa}</h2>
-                <p>0 / 27 vezes este mês · ${resultadoVezesNaSemana.textContent}/sem</p>
+                <p>0 / 27 vezes este mês · ${metaSemana}/sem</p>
                 <div class="dias">
-                    <div class="dia">S</div>
-                    <div class="dia">T</div>
-                    <div class="dia">Q</div>
-                    <div class="dia">Q</div>
-                    <div class="dia">S</div>
-                    <div class="dia">S</div>
-                    <div class="dia">D</div>
+                    <div class="dia" data-indice="0">S</div>
+                    <div class="dia" data-indice="1">T</div>
+                    <div class="dia" data-indice="2">Q</div>
+                    <div class="dia" data-indice="3">Q</div>
+                    <div class="dia" data-indice="4">S</div>
+                    <div class="dia" data-indice="5">S</div>
+                    <div class="dia" data-indice="6">D</div>
                 </div>
-                <button class="feito">✓ Feito hoje</button>
+                <button class="feito" style="background-color: ${corEscolhida}">✓ Feito hoje</button>
             </div>
         </div>
     `;
 
     SuaListaDeTarefa.appendChild(novaLi);
-
     novaTarefa.style.display = "none";
     document.getElementById("nome-tarefa").value = "";
-
-    verificarListaVazia(); // atualiza o aviso depois de adicionar
+    verificarListaVazia();
 }
 
-
-// ==========================================
-// 3. LISTENERS de elementos que JÁ EXISTEM desde o início
-//    (botão de abrir formulário, seletor de cor, etc)
-// ==========================================
 btnMostraNovaTarefa.addEventListener("click", function () {
     novaTarefa.style.display = "flex";
 });
@@ -83,21 +82,41 @@ caixas.forEach(function (caixa) {
     });
 });
 
-
-// ==========================================
-// 4. DELEGAÇÃO DE EVENTOS: para elementos que AINDA NÃO EXISTEM
-//    (os botões "Feito hoje" dentro de cada card criado dinamicamente)
-// ==========================================
 SuaListaDeTarefa.addEventListener("click", function (evento) {
     if (evento.target.classList.contains("feito")) {
-        console.log("Clicou no botão feito de:", evento.target);
-        // aqui você trata a lógica de marcar como feito
+        const card = evento.target.closest(".card-tarefa");
+        const indiceHoje = (new Date().getDay() + 6) % 7;
+        const diaHoje = card.querySelector(`.dia[data-indice="${indiceHoje}"]`);
+
+        if (diaHoje.classList.contains("feito-dia")) {
+            alert("Você já marcou isso hoje!");
+            return;
+        }
+
+        const cor = card.dataset.cor;
+        diaHoje.classList.add("feito-dia");
+        diaHoje.style.backgroundColor = cor;
+
+        const feitas = parseInt(card.dataset.feitas) + 1;
+        card.dataset.feitas = feitas;
+
+        const meta = card.dataset.meta;
+        card.querySelector(".conteudo p").textContent =
+            `${feitas} / 27 vezes este mês · ${meta}/sem`;
+
+        const porcentagem = Math.round((feitas / meta) * 100);
+        card.querySelector(".circulo span").textContent = porcentagem + "%";
+        card.querySelector(".circulo").style.borderColor = cor;
+    }
+
+    if (evento.target.classList.contains("btn-excluir")) {
+        const confirmar = confirm(`Excluir a tarefa "${tarefa.nome}"?`);
+        if (!confirmar) return;
+
+        tarefas.splice(indiceTarefa, 1);
+        salvarTarefas(tarefas);
+        renderizarTarefas();
     }
 });
 
-
-// ==========================================
-// 5. POR ÚLTIMO: rodar checagens iniciais
-//    (isso roda uma vez, assim que a página carrega)
-// ==========================================
 verificarListaVazia();

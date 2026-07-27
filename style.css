@@ -59,10 +59,11 @@ main h1{
     border-radius: 20px;
     padding: 10px;
     margin-top: 20px;
-    border-left: 5px solid #9c5cff;
+    border-left: 5px solid #9c5cff; 
+    position: relative;
 }
 
-.tarefas  .circulo {
+.tarefas .circulo {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -73,13 +74,25 @@ main h1{
     color: white;
 }
 
-.tarefas  .conteudo h2 {
-    font-size: 15px;
-    color: white;
-    margin-bottom: 10px;
+
+.btn-excluir {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    opacity: 0.6;
+    padding: 4px;
 }
 
-.tarefas  .conteudo p {
+.btn-excluir:hover {
+    opacity: 1;
+}
+
+
+.tarefas .conteudo p {
     font-size: 13px;
     color: #9b9b9b;
 }
@@ -90,7 +103,7 @@ main h1{
     margin-top: 10px;
 }
 
-.tarefas  .dias div {
+.tarefas .dias div {
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -102,9 +115,13 @@ main h1{
     cursor: pointer;
 }
 
-.tarefas  .feito {
+.tarefas .dias div.feito-dia {
+    background-color: #9c5cff;
+}
+
+.tarefas .feito {
     margin-top: 20px;
-    background: #9c5cff;
+    background: #9c5cff; 
     color: white;
     border: none;
     border-radius: 12px;
@@ -121,35 +138,6 @@ main h1{
     border: dashed 1px rgb(121, 117, 117);
     border-radius: 15px;
     cursor: pointer;
-}
-
-.card-tarefa {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-
-    background-color: #121212;
-    border-radius: 20px;
-
-    padding: 25px;
-    margin-top: 20px;
-
-    border-left: 5px solid #9c5cff;
-}
-
-.circulo {
-    width: 90px;
-    height: 90px;
-
-    border-radius: 50%;
-
-    border: 8px solid #2a2a2a;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    color: white;
 }
 
 .conteudo h2 {
@@ -170,12 +158,8 @@ main h1{
 .dias div {
     width: 35px;
     height: 35px;
-
     border-radius: 50%;
-
-    background-color: #242424;
-
-    color: white;
+    background-color: #242424;    color: white;
 
     display: flex;
     justify-content: center;
@@ -184,15 +168,11 @@ main h1{
 
 .feito {
     margin-top: 20px;
-
     background: #9c5cff;
     color: white;
-
     border: none;
     border-radius: 12px;
-
     padding: 12px 20px;
-
     cursor: pointer;
 }
 
