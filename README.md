@@ -21,7 +21,8 @@ Este projeto foi criado como exercício de **manipulação de DOM**, reforçando
 - **HTML5** — estrutura semântica da página
 - **CSS3** — estilização dos cards e do layout
 - **JavaScript (Vanilla)** — toda a lógica de criação de tarefas, manipulação do DOM e persistência de dados
-- 
+
   # estilos visuais
-```
+
+  
  
