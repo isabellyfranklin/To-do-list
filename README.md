@@ -4,10 +4,8 @@ Uma lista de tarefas feita em **JavaScript puro (vanilla JS)**, sem frameworks, 
  
 Este projeto foi criado como exercício de **manipulação de DOM**, reforçando conceitos como criação dinâmica de elementos, eventos e persistência de dados no navegador.
  
-##  Demonstração
- 
-> Adicione aqui o link do GitHub Pages, se você fez o deploy.  
-> 
+##  Link do site:
+>  https://isabellyfranklin.github.io/To-do-list/
  
 ##  Funcionalidades
  
@@ -23,6 +21,7 @@ Este projeto foi criado como exercício de **manipulação de DOM**, reforçando
 - **HTML5** — estrutura semântica da página
 - **CSS3** — estilização dos cards e do layout
 - **JavaScript (Vanilla)** — toda a lógica de criação de tarefas, manipulação do DOM e persistência de dados
+- 
   # estilos visuais
 ```
  
