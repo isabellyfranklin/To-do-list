@@ -4,12 +4,14 @@ const btnMostraNovaTarefa = document.getElementById("BtnNovaTarefa");
 const novaTarefa = document.getElementById("novaTarefa");
 const resultadoVezesNaSemana = document.getElementById("resultado-vezes");
 const imagem = "./img/icon-delete.svg";
+const progressoGeral = document.getElementById("progressoGeral");
+
 
 let corAtual = "";
 
 function verificarListaVazia() {
     if (SuaListaDeTarefa.children.length === 0) {
-        avisoNenhumaLista.style.display = "block";
+        avisoNenhumaLista.style.display = "flex";
     } else {
         avisoNenhumaLista.style.display = "none";
     }
@@ -34,7 +36,7 @@ function adicionar() {
             <div class="circulo"><span>0%</span></div>
             <div class="conteudo">
                 <h2>${nomeTarefa}</h2>
-                <p>0 / 27 vezes este mês · ${metaSemana}/sem</p>
+                <p>0 / 31 vezes este mês · ${metaSemana}/sem</p>
                 <div class="dias">
                     <div class="dia" data-indice="0">S</div>
                     <div class="dia" data-indice="1">T</div>
@@ -53,11 +55,25 @@ function adicionar() {
     novaTarefa.style.display = "none";
     document.getElementById("nome-tarefa").value = "";
     verificarListaVazia();
+    atualizarProgressoGeral(); 
 }
 
 btnMostraNovaTarefa.addEventListener("click", function () {
     novaTarefa.style.display = "flex";
 });
+
+function cancelar() {
+    novaTarefa.style.display = "none";
+    document.getElementById("nome-tarefa").value = "";
+    resultadoVezesNaSemana.textContent = "";
+
+    caixas.forEach(function (item) {
+        item.style.backgroundColor = "";
+    });
+
+    corAtual = "";
+    document.querySelector(".btns button").style.backgroundColor = "";
+}
 
 const cores = document.querySelectorAll(".cores");
 cores.forEach(function (cor) {
@@ -107,16 +123,44 @@ SuaListaDeTarefa.addEventListener("click", function (evento) {
         const porcentagem = Math.round((feitas / meta) * 100);
         card.querySelector(".circulo span").textContent = porcentagem + "%";
         card.querySelector(".circulo").style.borderColor = cor;
+        atualizarProgressoGeral();  
     }
 
-    if (evento.target.classList.contains("btn-excluir")) {
-        const confirmar = confirm(`Excluir a tarefa "${tarefa.nome}"?`);
-        if (!confirmar) return;
-
-        tarefas.splice(indiceTarefa, 1);
-        salvarTarefas(tarefas);
-        renderizarTarefas();
-    }
+    if (evento.target.closest(".btn-excluir")){
+        const card = evento.target.closest(".card-tarefa");
+        card.closest("li").remove();
+        atualizarProgressoGeral();  
+    } 
 });
 
+function atualizarProgressoGeral() {
+    const cards = document.querySelectorAll(".card-tarefa");
+
+    if (cards.length === 0) {
+        progressoGeral.textContent = "0%";
+        progressoGeral.style.color = "gray";
+        return;
+    }
+
+    let somaPorcentagens = 0;
+    cards.forEach(function (card) {
+        const feitas = parseInt(card.dataset.feitas);
+        const meta = parseInt(card.dataset.meta);
+        const porcentagem = Math.round((feitas / meta) * 100);
+        somaPorcentagens += porcentagem;
+    });
+
+    const mediaGeral = Math.round(somaPorcentagens / cards.length);
+    progressoGeral.textContent = mediaGeral + "%";
+
+    if (mediaGeral >= 70) {
+        progressoGeral.style.color = "#4caf50"; // verde
+    } else if (mediaGeral >= 40) {
+        progressoGeral.style.color = "#ff9800"; // laranja
+    } else {
+        progressoGeral.style.color = "#f44336"; // vermelho
+    }
+}
+
 verificarListaVazia();
+atualizarProgressoGeral();
