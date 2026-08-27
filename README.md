@@ -22,7 +22,14 @@ Este projeto foi criado como exercício de **manipulação de DOM**, reforçando
 - **CSS3** — estilização dos cards e do layout
 - **JavaScript (Vanilla)** — toda a lógica de criação de tarefas, manipulação do DOM e persistência de dados
 
-  # estilos visuais
+  ## Preview:
+
+  <img width="1892" height="885" alt="image" src="https://github.com/user-attachments/assets/7bdadf2d-384c-4d20-9a18-0cf47e3237cb" />
+  <img width="660" height="741" alt="image" src="https://github.com/user-attachments/assets/9ca9cd70-1f48-4bc0-88ae-9f125d7f4452" />
+
+  <img width="660" height="741" alt="image" src="https://github.com/user-attachments/assets/30b40f5b-c615-4235-b2db-70ee4fb6f724" />
+
+
 
   
  
